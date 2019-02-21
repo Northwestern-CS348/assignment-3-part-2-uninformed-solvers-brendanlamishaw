@@ -1,3 +1,5 @@
+import collections
+
 class UninformedSolver(object):
 
     """
@@ -20,6 +22,7 @@ class UninformedSolver(object):
         self.currentState = GameState(self.gm.getGameState(), 0, None)
         self.visited[self.currentState] = True
         self.victoryCondition = victoryCondition
+
 
     def solveOneStep(self):
         """
@@ -88,3 +91,6 @@ class GameState(object):
 
     def __hash__(self):
         return hash(self.state)
+
+    def __repr__(self):
+        return str(self.state)
