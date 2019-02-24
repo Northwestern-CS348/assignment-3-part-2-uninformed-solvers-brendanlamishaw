@@ -2,6 +2,7 @@ from solver import *
 import collections
 import pdb
 
+step = -1
 
 class SolverDFS(UninformedSolver):
     def __init__(self, gameMaster, victoryCondition):
@@ -78,7 +79,14 @@ class SolverBFS(UninformedSolver):
             True if the desired solution state is reached, False otherwise
         """
         ### Student code goes here
-        print(self.gm.getGameState())
+        global step
+        step += 1
+
+        # if step == 10:
+        #     breakpoint()
+
+        # print(self.gm.getGameState(), self.currentState.depth, f"Step: {step}", end=" ")
+        # print(f"\tParent: {self.currentState.parent}")
 
 
         if self.currentState and self.currentState not in self.queue:
@@ -96,33 +104,23 @@ class SolverBFS(UninformedSolver):
 
         self.queue.popleft()
 
+        #Create List of movables
+        moves = []
+        node = self.queue[0]
+        while node.parent is not None:
+            moves.insert(0, node.requiredMovable)
+            node = node.parent
+
         # Reversing moves
         while self.currentState.parent is not None:
             self.gm.reverseMove(self.currentState.requiredMovable)
             self.currentState = self.currentState.parent
 
-        nodeFound = False
+        for move in moves:
+            self.gm.makeMove(move)
+        self.currentState = self.queue[0]
 
-        while not nodeFound:
-            if self.currentState.children:
-                length = 0
-                for index, child in enumerate(self.currentState.children):
-                    self.gm.makeMove(child.requiredMovable)
-                    self.currentState = child
-                    if self.currentState is self.queue[0]:
-                        nodeFound = True
-                        break
-                    elif index != len(self.currentState.children):
-                        self.gm.reverseMove(child.requiredMovable)
-                        self.currentState = self.currentState.parent
-                    else:
-                        self.gm.makeMove(child.requiredMovable)
-                        self.currentState = child
-            else:
-                self.gm.reverseMove(self.currentState.requiredMovable)
-
-
-        # TextEdit code here:
+        return False
 
 
     def populateChildren(self):
@@ -140,11 +138,3 @@ class SolverBFS(UninformedSolver):
                     self.gm.reverseMove(movables[x])
                 else:
                     self.gm.reverseMove(movables[x])
-
-
-
-
-
-
-
-

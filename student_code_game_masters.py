@@ -179,7 +179,7 @@ class Puzzle8Game(GameMaster):
                 tileNum = -1
             else:
                 tileNum = int(str(tile)[-1])
-            row1.insert(posn-1, tileNum)
+            row1[posn-1] = tileNum
         row1 = [x for x in row1 if x != 'x']
         row1 = tuple(row1)
 
@@ -192,7 +192,7 @@ class Puzzle8Game(GameMaster):
                 tileNum = -1
             else:
                 tileNum = int(str(tile)[-1])
-            row2.insert(posn-1, tileNum)
+            row2[posn-1] = tileNum
         row2 = [x for x in row2 if x != 'x']
         row2 = tuple(row2)
 
@@ -205,11 +205,12 @@ class Puzzle8Game(GameMaster):
                 tileNum = -1
             else:
                 tileNum = int(str(tile)[-1])
-            row3.insert(posn-1, tileNum)
+            row3[posn-1] = tileNum
         row3 = [x for x in row3 if x != 'x']
         row3 = tuple(row3)
 
         game = (row1, row2, row3)
+
 
 
         return game
